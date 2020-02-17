@@ -13,7 +13,7 @@
 <body>
 <?php include "inc/navbar/navbarNotLogged.php";?>
 
-<p>question lol tewex enculé de merde ?</p>
+<p>question lol ?</p>
 <table id="customers">
   <tr>
     <td><a href="">reponse 1</a></td>
