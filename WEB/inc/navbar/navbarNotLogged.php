@@ -1,4 +1,4 @@
-<div class="container-fluid mb-5" style="background-color: salmon;">
+<div class="container-fluid mb-5" style="background-color: #e26a00;">
   <nav class="container navbar navbar-expand-lg navbar-light">
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">

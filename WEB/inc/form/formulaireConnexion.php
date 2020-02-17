@@ -85,18 +85,18 @@ if($ok)
 <div class="container">
     <div class="row justify-content-center mt-4">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card text-light" style="background-color: #ffbb7e;">
                 <?php if (isset($erreur["login"])): ?>
-                    <div class="card-header bg-danger text-light">Email ou mot de passe incorrect</div>
+                    <div class="card-header bg-danger"><h5>Email ou mot de passe incorrect</h5></div>
                 <?php else: ?>
-                    <div class="card-header">Se connecter</div>
+                    <div class="card-header" style="background-color: #e26a00"><h5>Se connecter</h5></div>
                 <?php endif; ?>
                 <div class="card-body">
                     <form method="post">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col">
-                                    <label for="nomStagiaire">Votre adresse email :</label>
+                                    <label for="nomStagiaire"><h5>Votre adresse email :</h5></label>
                                     <?php if (isset($erreur["email"])): ?>
                                         <input type="text" class="form-control is-invalid" id="mailConnexion" placeholder="Erreur dans votre email" name="mailConnexion" required>
                                         <div class="invalid-feedback">Veuillez rentrez une adresse mail valide.</div>
@@ -105,7 +105,7 @@ if($ok)
                                     <?php endif; ?>
                                 </div>
                                 <div class="col">
-                                    <label for="password">Votre mot de passe :</label>
+                                    <label for="password"><h5>Votre mot de passe :</h5></label>
                                     <?php if (isset($erreur["password"])): ?>
                                         <input type="password" class="form-control is-invalid" id="password" placeholder="******" name="password" required>
                                         <div class="invalid-feedback">Veuillez rentrez un mot de passe valide.</div>
@@ -117,7 +117,7 @@ if($ok)
                         </div>
                         <div class="form-group">
                             <label for="">&nbsp;</label>
-                            <input type="submit" class="form-control btn btn-outline-primary" value="Se connecter" name="formLogin">
+                            <input type="submit" class="form-control btn btn-bouton1" value="Se connecter" name="formLogin">
                         </div>
                     </div>
                 </form>

@@ -2,7 +2,7 @@
 /*
 *     Auteur              :  RUSSOTTI Leandro.
 *     Projet              :  Stagiaire.
-*     Page                :  Inscription.
+*     Page                :  Connexion.
 *     Date début projet   :  29.11.2018.
 */
 
@@ -21,7 +21,7 @@ if (session_status() == PHP_SESSION_NONE)
 }
 
 //Affiche une navbar selon si on est log ou non.
-if (false) // on féf après
+if (false) // is loggged
 {
     header("Location: .\index.php");
     exit;
@@ -30,7 +30,6 @@ else
 {
     include "inc/navbar/navbarNotLogged.php";
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="FR" dir="ltr">
@@ -38,16 +37,13 @@ else
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="style/style.css">
-    <title>Inscription</title>
+    <title>Connexion</title>
 </head>
 <body>
-    <div id="formulaireStagiaire">
+    <div class="formulaireConnexion">
         <?php
-        include "inc/form/formulaireInscription.php";
+        include "inc/form/formulaireConnexion.php";
         ?>
-    </div>
-    <div id="formulaireStagiaire">
-
     </div>
 </body>
 </html>
