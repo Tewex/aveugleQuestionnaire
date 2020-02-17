@@ -29,8 +29,8 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `classement` (
-  `idUser` int(11) NOT NULL,
-  `numberPoint` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `score` int(11) NOT NULL,
   `time` time NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -41,10 +41,10 @@ CREATE TABLE `classement` (
 --
 
 CREATE TABLE `question` (
-  `idQuestion` int(11) NOT NULL,
+  `questionId` int(11) NOT NULL,
   `imgPath` text NOT NULL,
   `question` text NOT NULL,
-  `correctAnwers` text NOT NULL
+  `answer` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -54,12 +54,12 @@ CREATE TABLE `question` (
 --
 
 CREATE TABLE `user` (
-  `idUser` int(11) NOT NULL,
-  `nameUser` text NOT NULL,
-  `mailUser` text NOT NULL,
-  `pwdSaltedUser` text NOT NULL,
-  `saltUser` text NOT NULL,
-  `roleUser` int(11) NOT NULL
+  `userId` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `mail` text NOT NULL,
+  `saltedPwd` text NOT NULL,
+  `pwdSalt` text NOT NULL,
+  `role` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `user` (
 -- Index pour la table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`idUser`);
+  ADD PRIMARY KEY (`userId`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -80,7 +80,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT;COMMIT;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
