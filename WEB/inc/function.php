@@ -49,7 +49,6 @@ function verifyIfEmailExists($email)
   {
       return false;
   }
-
 }
 
 // Fonction verifiant si un compte éxiste déjà avec ce pseudo ou non.
@@ -90,5 +89,54 @@ function connectUser($email,$pwd)
       return false;
   }
 }
+
+// Fonction servant a verifier si un nom ou un prénom est valide.
+function verifyName($givenName)
+{
+  if(preg_match("/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u",$givenName)){
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+  
+}
+
+// Fonction servant a verifier si un pseudo est valide.
+function verifyNickname($givenNick)
+{
+  if(preg_match("/^[A-Za-z][A-Za-z0-9_]{3,15}$/",$givenNick)){
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+/*function selectQuestionAleatoire(){
+  global $bdd;
+  $totalQuestion = $bdd->query('select COUNT(questionId) as total from question');
+  $totalQuestion = $totalQuestion->fetch();
+  $totalQuestion = $totalQuestion['total'];
+ 
+  $nbrIdQuestion= rand(1, $totalQuestion);
+  $res = $bdd->query("SELECT * FROM `question` WHERE questionId = $nbrIdQuestion");
+ 
+ 
+  $donnees=$res->fetch();
+  return $donnees['questionId'];
+}
+*/
+/*function selectQuestions($nbQuestion){
+    global $bdd;
+
+    $reqQuest = $bdd->prepare("");
+    $reqQuest->execute(array());
+    $quest = $reqQuest->fetch();
+
+    return $quest;
+}*/
 
 ?>
