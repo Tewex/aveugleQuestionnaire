@@ -2,43 +2,93 @@
 
 require "./bdd/connexionBd.php";
 
-$bdd = connectDB();
+$db = UserDbConnection();
 
 if (session_status() == PHP_SESSION_NONE)
 {
   session_start();
 }
 
+//Function servant a verifier si on est log ou non
+function isLogged()
+{
+    return isset($_SESSION['connect']);
+}
+
+// Fonction ajoutant un user a la base.
 function addUser($nom,$prenom,$email,$pwd,$pseudo)
 {
-    global $bdd;
-    $password = $prenomStagiaire.$nomStagiaire;
+    global $db;
 
-    $insertStagiaire = $bdd->prepare("INSERT INTO stagiaires(FIRSTNAME, LASTNAME, EMAIL, PSWD, PRIVATE_PHONE, SCHOOL_NAME, SCHOOL_DEGREE, REMARKS, ROLES_CODE) VALUES(?,?,?,?,?,?,?,?,?)");
-    $insertStagiaire->execute(array($prenomStagiaire,$nomStagiaire,$emailStagiaire,$telephoneStagiaire,$nomEcoleStagiaire,$degreStagiaire));
+    $insertNewMember = $db->prepare("INSERT INTO user(name,surname,nickname,email,saltedPwd) VALUES(?,?,?,?,?)");
+    $insertNewMember->execute(array($nom,$prenom,$pseudo,$email,$pwd));
 }
 
-function selectQuestionAleatoire(){
-  global $bdd;
-  $totalQuestion = $bdd->query('select COUNT(questionId) as total from question');
-  $totalQuestion = $totalQuestion->fetch();
-  $totalQuestion = $totalQuestion['total'];
- 
-  $nbrIdQuestion= rand(1, $totalQuestion);
-  $res = $bdd->query("SELECT * FROM `question` WHERE questionId = $nbrIdQuestion");
- 
- 
-  $donnees=$res->fetch();
-  return $donnees['questionId'];
+// Fonction qui hash et salt le password.
+function hashPassword($email,$pwd)
+{
+  $email = md5($email);
+  $hashedPwd = md5($email.$pwd);
+  return $hashedPwd;
 }
 
-/*function selectQuestions($nbQuestion){
-    global $bdd;
+// Fonction verifiant si un compte éxiste déjà ou non.
+function verifyIfEmailExists($email)
+{
+  global $db;
 
-    $reqQuest = $bdd->prepare("");
-    $reqQuest->execute(array());
-    $quest = $reqQuest->fetch();
+  $requser = $db->prepare("SELECT * FROM user WHERE email = ?");
+  $requser->execute(array($email));
+  $userexist = $requser->rowCount();
 
-    return $quest;
-}*/
+  if($userexist == 1)
+  {
+      return true;
+  }
+  else
+  {
+      return false;
+  }
+
+}
+
+// Fonction verifiant si un compte éxiste déjà avec ce pseudo ou non.
+function verifyIfPseudoExists($pseudo)
+{
+  global $db;
+
+  $requser = $db->prepare("SELECT * FROM user WHERE nickname = ?");
+  $requser->execute(array($pseudo));
+  $userexist = $requser->rowCount();
+
+  if($userexist == 1)
+  {
+      return true;
+  }
+  else
+  {
+      return false;
+  }
+
+}
+
+// Fonction servant a connecté l'user a la base.
+function connectUser($email,$pwd)
+{
+  global $db;
+
+  $requser = $db->prepare("SELECT * FROM user WHERE email = ? AND saltedPwd = ?");
+  $requser->execute(array($email,$pwd));
+  $userexist = $requser->rowCount();
+
+  if($userexist == 1)
+  {
+      return true;
+  }
+  else
+  {
+      return false;
+  }
+}
+
 ?>

@@ -12,11 +12,12 @@ $ok = filter_input(INPUT_POST,"btnCreationCompte");
 if ($ok)
 {
     // Crée les variables
-    $nom = filter_input(INPUT_POST,"nom", FILTER_SANITIZE_STRING);
-    $prenom = filter_input(INPUT_POST,"prenom", FILTER_SANITIZE_STRING);
+    $nom = ucfirst(filter_input(INPUT_POST,"nom", FILTER_SANITIZE_STRING));
+    $prenom = ucfirst(filter_input(INPUT_POST,"prenom", FILTER_SANITIZE_STRING));
     $email = filter_input(INPUT_POST,"email", FILTER_VALIDATE_EMAIL);
-
+    $pseudo = filter_input(INPUT_POST,"pseudo", FILTER_SANITIZE_STRING);
     $password = filter_input(INPUT_POST,"password", FILTER_SANITIZE_STRING);
+    $password2 = filter_input(INPUT_POST,"password2", FILTER_SANITIZE_STRING);
 
     $erreur = [];
 
@@ -26,30 +27,66 @@ if ($ok)
         $erreur["nom"] = "Nom incomplet";
     }
 
-    // Vérifie si prénom stagiaire n'est pas vide.
+    // Vérifie si prénom n'est pas vide.
     if (!$prenom)
     {
         $erreur["prenom"] = "Prénom incomplet";
     }
 
-    // Vérifie si password stagiaire n'est pas vide.
+    // Vérifie si password n'est pas vide.
     if (!$password)
     {
         $erreur["password"] = "Mot de passe incomplet";
     }
 
-    // Vérifie si l'email du stagiaire est bien un email et n'est pas vide.
+    // Vérifie si pseudo n'est pas vide.
+    if (!$password)
+    {
+        $erreur["password"] = "Mot de passe incomplet";
+    }
+
+    // Vérifie si l'email est bien un email et n'est pas vide.
     if (!$email)
     {
         $erreur["email"] = "Email incomplet";
     }
 
+    // Vérifie si l'email est libre
+    if (verifyIfEmailExists($email))
+    {
+        $erreur["email"] = "Un compte avec cet email est déjà existant";
+    }
+
+    // Vérifie si le pseudo n'est pas vide.
+    if (!$pseudo)
+    {
+        $erreur["pseudo"] = "pseudo incomplet";
+    }
+
+    // Vérifie si le pseudo est libre
+    if (verifyIfPseudoExists($pseudo))
+    {
+        $erreur["pseudo"] = "Un compte avec ce pseudo existe déjà";
+    }
+
+    // Vérifie si les mots de passes sont les mêmes
+    if ($password != $password2)
+    {
+        $erreur["password"] = "Les mots de passes sont différents";
+    }
+
+    // Vérifie si les mots de passes ne sont pas vide
+    if (!$password && !$password2)
+    {
+        $erreur["email"] = "mot de passe incomplet";
+    }
+
     // Vérifie si il n'y a eu aucune valeur mal entrée dans le formulaire et envoie les données dans la bdd.
     if (count($erreur) == 0)
     {
-        $password = sha1($emailStagiaire.$password);
-        ajouterStagiaireBDD($nomStagiaire,$prenomStagiaire,$emailStagiaire,$password,$telephoneStagiaire,$ecoleStagiaireFinal,$degreStagiaire);
-        header("Location: pingtoflop.php");
+        addUser($nom,$prenom,$email,hashPassword($email,$password),$pseudo);
+        echo " oki";
+        //header("Location: pingtoflop.php");
     }
 }
 ?>
@@ -86,7 +123,7 @@ if ($ok)
                             <label for="email">Email :</label>
                             <?php if (isset($erreur["email"])): ?>
                                 <input type="text" class="form-control is-invalid" id="email" placeholder="exemple@mail.ch" name="email" required>
-                                <div class="invalid-feedback"> Veuillez rentrez une adresse email valide</div>
+                                <div class="invalid-feedback"><?= $erreur["email"] ?></div>
                             <?php else: ?>
                                 <input type="text" class="form-control" id="email" placeholder="exemple@mail.ch" name="email" required value="<?php if(isset($email)){echo $email;}?>">
                             <?php endif; ?>
