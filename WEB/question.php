@@ -5,9 +5,9 @@
   Description : projet de groupe sur un site de questions
   -->
 <?php
-  require "inc/fuinction.php";
+  require "inc/function.php";
 
-  
+  test();
 
   if(filter_has_var(INPUT_POST, 'submit')){
     $reponseUser = filter_input(INPUT_POST, 'reponse', FILTER_SANITIZE_STRING);
