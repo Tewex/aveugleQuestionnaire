@@ -12,7 +12,7 @@ error_reporting(E_ALL);
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>Salu - indexent</title>
+        <title>Salu - classeument</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" href="style/style.css">
     </head>
@@ -27,6 +27,22 @@ error_reporting(E_ALL);
     }
     ?>
     <body>
-        <h1>banane</h1>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="card text-dark" style="background-color: #EEEEEE;">             
+                        <div class="card-header p-3  pl-4 text-light" style="background-color: #70CE9B;">
+                            <h3>Les meilleurs scores</h3>
+                        </div>
+                        <div class="card-body p-0">
+                        <?php
+                        echo showBestScoresHTML();
+                        ?>
+                        
+                        </div>
+                    </div>        
+                </div>
+            </div>
+        </div> 
     </body>
 </html>

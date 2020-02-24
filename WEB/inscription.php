@@ -14,20 +14,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-//Ouvre la session
-if (session_status() == PHP_SESSION_NONE)
-{
-    session_start();
-}
-
-$logged = isset($_SESSION["logged"]);
-
-//Affiche une navbar selon si on est log ou non.
-if ($logged) // on féf après
-{
-    header("Location: .\index.php");
-    exit;
-}
 ?>
 <!DOCTYPE html>
 <html lang="FR" dir="ltr">
@@ -39,7 +25,16 @@ if ($logged) // on féf après
 </head>
 <body>
 <?php
-include "inc/navbar/navbarNotLogged.php";
+
+if (isLogged())
+{
+    include "inc/navbar/navbarLogged.php";
+}
+else
+{
+    include "inc/navbar/navbarNotLogged.php";
+}
+
 ?>
     <div id="formulaireStagiaire">
         <?php

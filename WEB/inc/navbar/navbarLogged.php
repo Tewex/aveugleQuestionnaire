@@ -1,18 +1,15 @@
-<div class="container-fluid mb-5 text-dark" style="background-color: #F4F1BB;">
-<nav class="container navbar navbar-expand-lg navbar-dark">
+<div class="container-fluid mb-5 text-light" style="background-color: #007C66;">
+<nav class="container navbar navbar-expand navbar-dark">
     <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-        <h4><a class="nav-link" href=".\index.php">Accueil</a></h4>
+        <h4><a class="nav-link text-light" href=".\index.php">Accueil</a></h4>
         </li>
     </ul>
     <span class="navbar-text">
         <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-            <h5><a class="nav-link" href=".\connexion.php">Connexion</a></h5>
-        </li>
-        <li class="nav-item">
-            <h5><a class="nav-link" href=".\inscription.php">Inscription</a></h5>
+            <h5><a class="nav-link text-light" href=".\logout.php">Déconnexion</a></h5>
         </li>
         </ul>
     </span>
