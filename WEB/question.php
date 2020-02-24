@@ -7,12 +7,17 @@
 <?php
   require "inc/function.php";
 
-  test();
+  $allQuestion = nbQuestionTotal(5);
+  
 
   if(filter_has_var(INPUT_POST, 'submit')){
-    $reponseUser = filter_input(INPUT_POST, 'reponse', FILTER_SANITIZE_STRING);
+   /* $reponseUser = filter_input(INPUT_POST, 'reponse', FILTER_SANITIZE_STRING);
 
-    echo $reponseUser;
+    if($question1['answer']==$reponseUser){
+      echo "bonne reponse";
+    }else{
+      echo "mauvaise reponse";
+    }*/
   }
 
 ?>
@@ -27,18 +32,14 @@
 <body>
 <?php include "inc/navbar/navbarNotLogged.php";?>
 <div style="margin-left:500px;">
-  <p>question ?</p>
 
   <form action="" method="POST">
-    <table>
-      <tr>
-        <td><input type="radio" name="reponse" value="1">Reponse 1</td>
-        <td><input type="radio" name="reponse" value="2">Reponse 2</td>
-      </tr>
-      <tr>
-        <td><input type="radio" name="reponse" value="3">Reponse 3</td>
-        <td><input type="radio" name="reponse" value="4">Reponse 4</td>
-      </tr>
+    <table>      
+
+      <?php
+        afficherTableQuestion($allQuestion);
+      ?>      
+
       <tr>
       <td colspan="2" align="center"><input type="submit" value="confirmer" name="submit"></td>
       </tr>

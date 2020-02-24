@@ -115,28 +115,61 @@ function verifyNickname($givenNick)
   }
 }
 
-/*function selectQuestionAleatoire(){
-  global $bdd;
-  $totalQuestion = $bdd->query('select COUNT(questionId) as total from question');
+function nbQuestionTotal($nbQuestion){
+  $array = array();
+
+  for ($i=0; $i < $nbQuestion; $i++) { 
+    $idQuestion = selectQuestionAleatoire();
+    if (in_array($idQuestion, $array)) {
+      $i--;
+    }else{
+      array_push($array,$idQuestion);
+    }
+  }
+  return $array;
+}
+
+function afficherTableQuestion($array){
+ foreach ($array as $key => $value) {
+  $question = selectQuestions($value);
+ echo '
+      <tr>
+      <td colspan="2" align="center"><p>'.$question["question"].'</p></td>
+      </tr>
+      <tr>
+        <td><input type="radio" name="reponse'.$key.'" value="'.$question["answer"].'">'.$question["answer"].'</td>
+        <td><input type="radio" name="reponse'.$key.'" value="2">Reponse 2</td>
+      </tr>
+      <tr>
+        <td><input type="radio" name="reponse'.$key.'" value="3">Reponse 3</td>
+        <td><input type="radio" name="reponse'.$key.'" value="4">Reponse 4</td>     
+      </tr>';
+
+
+ }
+}
+function selectQuestionAleatoire(){
+  global $db;
+  $totalQuestion = $db->query('select COUNT(questionId) as total from question');
   $totalQuestion = $totalQuestion->fetch();
   $totalQuestion = $totalQuestion['total'];
  
   $nbrIdQuestion= rand(1, $totalQuestion);
-  $res = $bdd->query("SELECT * FROM `question` WHERE questionId = $nbrIdQuestion");
+  $res = $db->query("SELECT * FROM `question` WHERE questionId = $nbrIdQuestion");
  
  
   $donnees=$res->fetch();
   return $donnees['questionId'];
 }
-*/
-/*function selectQuestions($nbQuestion){
-    global $bdd;
 
-    $reqQuest = $bdd->prepare("");
-    $reqQuest->execute(array());
+function selectQuestions($nbQuestion){
+    global $db;
+
+    $reqQuest = $db->prepare("SELECT * FROM `question` WHERE questionId = ?");
+    $reqQuest->execute(array($nbQuestion));
     $quest = $reqQuest->fetch();
 
     return $quest;
-}*/
+}
 
 ?>
