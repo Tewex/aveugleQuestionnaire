@@ -1,9 +1,9 @@
 <?php
 /*
 *     Auteur              :  RUSSOTTI Leandro.
-*     Projet              :  Stagiaire.
+*     Projet              :  AveugleQuestionnaire.
 *     Page                :  Inscription.
-*     Date début projet   :  29.11.2018.
+*     Date début projet   :  17.02.2020.
 */
 
 //Page necessaire au fonctionnement.
@@ -20,17 +20,14 @@ if (session_status() == PHP_SESSION_NONE)
     session_start();
 }
 
+$logged = isset($_SESSION["logged"]);
+
 //Affiche une navbar selon si on est log ou non.
-if (false) // on féf après
+if ($logged) // on féf après
 {
     header("Location: .\index.php");
     exit;
 }
-else
-{
-    include "inc/navbar/navbarNotLogged.php";
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="FR" dir="ltr">
@@ -41,13 +38,13 @@ else
     <title>Inscription</title>
 </head>
 <body>
+<?php
+include "inc/navbar/navbarNotLogged.php";
+?>
     <div id="formulaireStagiaire">
         <?php
         include "inc/form/formulaireInscription.php";
         ?>
-    </div>
-    <div id="formulaireStagiaire">
-
     </div>
 </body>
 </html>

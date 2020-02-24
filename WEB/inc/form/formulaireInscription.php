@@ -12,11 +12,12 @@ $ok = filter_input(INPUT_POST,"btnCreationCompte");
 if ($ok)
 {
     // Crée les variables
-    $nom = filter_input(INPUT_POST,"nom", FILTER_SANITIZE_STRING);
-    $prenom = filter_input(INPUT_POST,"prenom", FILTER_SANITIZE_STRING);
+    $nom = ucfirst(filter_input(INPUT_POST,"nom", FILTER_SANITIZE_STRING));
+    $prenom = ucfirst(filter_input(INPUT_POST,"prenom", FILTER_SANITIZE_STRING));
     $email = filter_input(INPUT_POST,"email", FILTER_VALIDATE_EMAIL);
-
-    $password = filter_input(INPUT_POST,"password", FILTER_SANITIZE_STRING);
+    $pseudo = filter_input(INPUT_POST,"pseudo", FILTER_SANITIZE_STRING);
+    $password = filter_input(INPUT_POST,"password1", FILTER_SANITIZE_STRING);
+    $password2 = filter_input(INPUT_POST,"password2", FILTER_SANITIZE_STRING);
 
     $erreur = [];
 
@@ -25,98 +26,153 @@ if ($ok)
     {
         $erreur["nom"] = "Nom incomplet";
     }
+    if (!verifyName($nom))
+    {
+        $erreur["nom"] = "Un nom ne peut pas être un chiffre";
+    }
 
-    // Vérifie si prénom stagiaire n'est pas vide.
+    // Vérifie si prénom n'est pas vide.
     if (!$prenom)
     {
         $erreur["prenom"] = "Prénom incomplet";
     }
+    if (!verifyName($prenom))
+    {
+        $erreur["prenom"] = "Un prénom ne peut pas être un chiffre";
+    }
 
-    // Vérifie si password stagiaire n'est pas vide.
+    // Vérifie si password n'est pas vide.
     if (!$password)
     {
         $erreur["password"] = "Mot de passe incomplet";
     }
 
-    // Vérifie si l'email du stagiaire est bien un email et n'est pas vide.
+    // Vérifie si pseudo n'est pas vide.
+    if (!$password)
+    {
+        $erreur["password"] = "Mot de passe incomplet";
+    }
+
+    // Vérifie si l'email est bien un email et n'est pas vide.
     if (!$email)
     {
         $erreur["email"] = "Email incomplet";
     }
 
+    // Vérifie si l'email est libre
+    if (verifyIfEmailExists($email))
+    {
+        $erreur["email"] = "Un compte avec cet email est déjà existant";
+    }
+
+    // Vérifie si le pseudo n'est pas vide.
+    if (!$pseudo)
+    {
+        $erreur["pseudo"] = "pseudo incomplet";
+    }
+
+    // Vérifie si le pseudo est libre
+    if (verifyIfPseudoExists($pseudo))
+    {
+        $erreur["pseudo"] = "Un compte avec ce pseudo existe déjà";
+    }
+    if (!verifyNickname($pseudo))
+    {
+        $erreur["pseudo"] = "Un pseudo doit commencer par une lettre et faire entre 4 et 16 caractères.";
+    }
+
+    // Vérifie si les mots de passes sont les mêmes
+    if ($password != $password2)
+    {
+        $erreur["password"] = "Les mots de passes sont différents";
+    }
+
+    // Vérifie si les mots de passes ne sont pas vide
+    if (!$password && !$password2)
+    {
+        $erreur["password"] = "mot de passe incomplet";
+    }
+
     // Vérifie si il n'y a eu aucune valeur mal entrée dans le formulaire et envoie les données dans la bdd.
     if (count($erreur) == 0)
     {
-        $password = sha1($emailStagiaire.$password);
-        ajouterStagiaireBDD($nomStagiaire,$prenomStagiaire,$emailStagiaire,$password,$telephoneStagiaire,$ecoleStagiaireFinal,$degreStagiaire);
-        header("Location: pingtoflop.php");
+        addUser($nom,$prenom,$email,hashPassword($email,$password),$pseudo);
+        echo " oki";
+        //header("Location: pingtoflop.php");
     }
 }
 ?>
 <div class="container">
     <div class="row justify-content-center mt-4">
         <div class="col-md-12">
-            <div class="card text-light" style="background-color: #ffbb7e">
-                <div class="card-header" style="background-color: #e26a00"><h5>Crée un compte</h5></div>
+            <div class="card text-dark" style="background-color: #EEEEEE">
+                <div class="card-header" style="background-color: #c0c0c0"><h5>Crée un compte</h5></div>
                 <div class="card-body">
                     <form method="post">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col">
-                                    <label for="nom">Votre nom :</label>
                                     <?php if (isset($erreur["nom"])): ?>
+                                        <label for="nom" class="text-danger mb-0 pb-0"><h5>Votre nom :</h5></label>
                                         <input type="text" class="form-control is-invalid" id="nom" placeholder="nom ..." name="nom" required>
-                                        <div class="invalid-feedback"> Veuillez rentrez un nom valide</div>
+                                        <div class="invalid-feedback"><?= $erreur["nom"] ?></div>
                                     <?php else: ?>
+                                        <label for="nom" class="mb-0 pb-0"><h5>Votre nom :</h5></label>
                                         <input type="text" class="form-control" id="nom" placeholder="nom ..." name="nom" required value="<?php if(isset($nom)){echo $nom;}?>">
                                     <?php endif; ?>
                                 </div>
                                 <div class="col">
-                                    <label for="prenomStagiaire">Votre prénom :</label>
                                     <?php if (isset($erreur["prenom"])): ?>
-                                        <input type="text" class="form-control is invalid" id="prenom" placeholder="Prénom" name="prenom" required>
-                                        <div class="invalid-feedback"> Veuillez rentrez un prénom valide</div>
+                                        <label for="prenom" class="text-danger mb-0 pb-0"><h5>Votre prénom :</h5></label>
+                                        <input type="text" class="form-control is-invalid" id="prenom" placeholder="Prénom" name="prenom" required>
+                                        <div class="invalid-feedback"><?= $erreur["prenom"]?></div>
                                     <?php else: ?>
+                                        <label for="prenom" class="mb-0 pb-0"><h5>Votre prénom :</h5></label>
                                         <input type="text" class="form-control" id="prenom" placeholder="Prénom" name="prenom" required value="<?php if(isset($prenom)){echo $prenom;}?>">
                                     <?php endif; ?>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="email">Email :</label>
                             <?php if (isset($erreur["email"])): ?>
+                                <label for="email" class="text-danger mb-0 pb-0"><h5>Adresse email :</h5></label>
                                 <input type="text" class="form-control is-invalid" id="email" placeholder="exemple@mail.ch" name="email" required>
-                                <div class="invalid-feedback"> Veuillez rentrez une adresse email valide</div>
+                                <div class="invalid-feedback"><?= $erreur["email"] ?></div>
                             <?php else: ?>
+                                <label for="email" class="mb-0 pb-0"><h5>Adresse email :</h5></label>
                                 <input type="text" class="form-control" id="email" placeholder="exemple@mail.ch" name="email" required value="<?php if(isset($email)){echo $email;}?>">
                             <?php endif; ?>
                         </div>
-                        <div class="form-group">
-                            <label for="pseudo">Pseudo :</label>
+                        <div class="form-group"> 
                             <?php if (isset($erreur["pseudo"])): ?>
+                                <label for="pseudo" class="text-danger mb-0 pb-0"><h5>Pseudo :</h5></label>
                                 <input type="text" class="form-control is-invalid" id="pseudo" placeholder="Pseudonyme ...." name="pseudo" required >
-                                <div class="invalid-feedback"> Veuillez rentrez un pseudonyme valide</div>
+                                <div class="invalid-feedback"><?= $erreur["pseudo"] ?></div>
                             <?php else: ?>
+                                <label for="pseudo" class="mb-0 pb-0"><h5>Pseudo :</h5></label>
                                 <input type="text" class="form-control" id="pseudo" placeholder="Pseudonyme ...." name="pseudo" required value="<?php if(isset($pseudo)){echo $pseudo;}?>">
                             <?php endif; ?>
                         </div>
                         <div class="form-group">
                                 <div class="row">
                                     <div class="col">
-                                        <label for="nom">Mot de passe :</label>
                                         <?php if (isset($erreur["password"])): ?>
-                                            <input type="text" class="form-control is-invalid" id="password" placeholder="****" name="password" required>
-                                            <div class="invalid-feedback"> Veuillez rentrez un mot de passe valide</div>
+                                            <label for="password1" class="text-danger mb-0 pb-0"><h5>Mot de passe :</h5></label>
+                                            <input type="text" class="form-control is-invalid" id="password1" placeholder="*****" name="password1" required>
+                                            <div class="invalid-feedback"><?= $erreur["password"] ?></div>
                                         <?php else: ?>
-                                            <input type="text" class="form-control" id="password" placeholder="*****" name="password" required>
+                                            <label for="password1" class="mb-0 pb-0"><h5>Mot de passe :</h5></label>
+                                            <input type="text" class="form-control" id="password1" placeholder="*****" name="password1" required>
                                         <?php endif; ?>
                                     </div>
                                     <div class="col">
-                                        <label for="password2">Vérification mot de passe :</label>
                                         <?php if (isset($erreur["password"])): ?>
-                                            <input type="text" class="form-control is invalid" id="password2" placeholder="*****" name="password2" required>
-                                            <div class="invalid-feedback"> Veuillez rentrez un prénom valide</div>
+                                            <label for="password2" class="text-danger mb-0 pb-0"><h5>Vérification mot de passe :</h5></label>
+                                            <input type="text" class="form-control is-invalid" id="password2" placeholder="*****" name="password2" required>
+
+                                            <div class="invalid-feedback"><?= $erreur["password"] ?></div>
                                         <?php else: ?>
+                                            <label for="password2" class="mb-0 pb-0"><h5>Vérification mot de passe :</h5></label>
                                             <input type="text" class="form-control" id="password2" placeholder="*****" name="password2" required>
                                         <?php endif; ?>
                                     </div>
@@ -134,22 +190,4 @@ if ($ok)
     </div>
 </div>
 <script>
-function autreEcole(){
-    if (document.getElementById("degreeStagiaire").value == "autre")
-    {
-        document.getElementById("autreEcoleStagiaire").removeAttribute("readOnly");
-        document.getElementById("autreEcoleStagiaire").required = true;
-        document.getElementById("ecoleStagiaire").readOnly = true;
-        document.getElementById("ecoleStagiaire").required = false;
-        document.getElementById("ecoleStagiaire").value = "";
-    }
-    else
-    {
-        document.getElementById("autreEcoleStagiaire").readOnly = true;
-        document.getElementById("autreEcoleStagiaire").required = false;
-        document.getElementById("autreEcoleStagiaire").value = "";
-        document.getElementById("ecoleStagiaire").removeAttribute("readOnly");
-        document.getElementById("ecoleStagiaire").required = true;
-    }
-}
 </script>
