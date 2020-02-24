@@ -1,0 +1,10 @@
+C:\Users\davilal\source\repos\TravailLundiAprem\TravailLundiAprem\bin\Debug\TravailLundiAprem.exe.config
+C:\Users\davilal\source\repos\TravailLundiAprem\TravailLundiAprem\bin\Debug\TravailLundiAprem.exe
+C:\Users\davilal\source\repos\TravailLundiAprem\TravailLundiAprem\bin\Debug\TravailLundiAprem.pdb
+C:\Users\davilal\source\repos\TravailLundiAprem\TravailLundiAprem\obj\Debug\TravailLundiAprem.csprojAssemblyReference.cache
+C:\Users\davilal\source\repos\TravailLundiAprem\TravailLundiAprem\obj\Debug\TravailLundiAprem.AddQuestion.resources
+C:\Users\davilal\source\repos\TravailLundiAprem\TravailLundiAprem\obj\Debug\TravailLundiAprem.Form1.resources
+C:\Users\davilal\source\repos\TravailLundiAprem\TravailLundiAprem\obj\Debug\TravailLundiAprem.Properties.Resources.resources
+C:\Users\davilal\source\repos\TravailLundiAprem\TravailLundiAprem\obj\Debug\TravailLundiAprem.csproj.GenerateResource.cache
+C:\Users\davilal\source\repos\TravailLundiAprem\TravailLundiAprem\obj\Debug\TravailLundiAprem.exe
+C:\Users\davilal\source\repos\TravailLundiAprem\TravailLundiAprem\obj\Debug\TravailLundiAprem.pdb
