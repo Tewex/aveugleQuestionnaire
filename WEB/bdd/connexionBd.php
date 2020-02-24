@@ -1,17 +1,20 @@
 <?php
-
 require_once "informationBd.php";
-
-function UserDbConnection()
+class BDD
 {
-  static $dbb = null;
+  private static $objInstance = null;
+  private function __construct(){}
+  private function _clone(){}
 
-  if ($dbb === null) 
+  public static function UserDbConnection()
+{
+
+  if (!self::$objInstance) 
   {
       try 
       {
-          $dbb = new PDO("mysql:host=" . SERVER . ";dbname=" . DATABASE_NAME, PSEUDO, PWD, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
-          $dbb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          self::$objInstance = new PDO("mysql:host=".SERVER.";dbname=".DATABASE_NAME, PSEUDO, PWD);
+          self::$objInstance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       } 
       catch (PDOException $e) 
       {
@@ -19,5 +22,11 @@ function UserDbConnection()
       }
   }
 
-  return $dbb;
+  return self::$objInstance;
+}
+
+final public static function __callStatic( $chrMethod, $arrArguments ) {
+    $objInstance = self::UserDbConnection();
+    return call_user_func_array(array($objInstance, $chrMethod), $arrArguments);
+    }
 }
