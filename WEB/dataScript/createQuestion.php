@@ -1,5 +1,5 @@
 <?php
-require_once("../Database.php");
+require_once("../bdd/connexionBd.php");
 if(isset($_REQUEST['question']) && isset($_REQUEST['answer']) && isset($_REQUEST['imgPath']))
 {  
     if($_REQUEST['question'] != "" && $_REQUEST['answer'] != "" && $_REQUEST['imgPath'] != "")
@@ -8,12 +8,10 @@ if(isset($_REQUEST['question']) && isset($_REQUEST['answer']) && isset($_REQUEST
         $question = $_REQUEST['question'];
         $answer = $_REQUEST['answer'];
 
-        $query = "INSERT INTO question (imgPath, question, answer) VALUES($imgPath,$question,$answer)";
+        $query = "INSERT INTO question (imgPath, question, answer) VALUES ('-','-','-')";
         try{
-            $bdd = Database::getInstance();
-            $statement = $bdd->prepare($query);
+            $statement = BDD::prepare($query);
             $statement->execute();
-            print_r($statement->fetchAll(PDO::FETCH_ASSOC));
         }
         catch(Exception $e)
         {
