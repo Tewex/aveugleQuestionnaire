@@ -31,53 +31,18 @@ if($ok)
         $erreur["password"] = ".";
     }
 
+    // Vérifie si les informations de connexion sont bonnes.
+    if (!connectUser($mailConnexion,hashPassword($mailConnexion,$password)))
+    {
+        $erreur["login"] = "Email ou mot de passe incorrect.";
+    }
+
     // Continue si il n'y a aucune érreur.
     if (count($erreur) == 0)
     {
-        // Vérifie si l'utilisateur est un administrateur.
-        if (!verifieAdmin($mailConnexion,$password))
-        {
-            $erreurAdmin["password"] = ".";
-            $erreurAdmin["email"] = ".";
-            $erreurAdmin["login"] = ".";
-            $erreur["login"] = ".";
-        }
-        // Vérifie si l'utilisateur est un stagiaire.
-        if (!verifierUser($mailConnexion,$password))
-        {
-            $erreurStagiaire["password"] = ".";
-            $erreurStagiaire["email"] = ".";
-            $erreurStagiaire["login"] = ".";
-            $erreur["login"] = ".";
-        }
-        // Si l'utilisateur est un stagiaire le connecte, lui donne ces informations en session et le redirige a la page stagiaire.
-        if (count($erreurStagiaire) == 0)
-        {
-            $userinfo = getInfosStagiaire($mailConnexion);
-            $_SESSION["nom"] = $userinfo["nomStagiaire_STAGIAIRES"];
-            $_SESSION["idStagiaire"] = $userinfo["idStagiaire_STAGIAIRES"];
-            $_SESSION["grade"] = "Stagiaire";
-            $_SESSION['connect'] = True;
-            $_SESSION["droits"] = array(
-                "stagiaire" => true
-            );
-            header("Location: profil.php");
-            exit;
-        }
-        // Si l'utilisateur est un admin le connecte, lui donne ces informations en session et le redirige a la page admin.
-        if (count($erreurAdmin) == 0)
-        {
-            $userinfo = getInfosAdmin($mailConnexion);
-            $_SESSION["nom"] = $userinfo["nomAdmin_ADMINISTRATEUR"];
-            $_SESSION["idStagiaire"] = $userinfo["idAdmin_ADMINISTRATEUR"];
-            $_SESSION["grade"] = "Admin";
-            $_SESSION['connect'] = True;
-            $_SESSION["droits"] = array(
-                "admin" => true
-            );
-            header("Location: administrationStagiaire.php");
-            exit;
-        }
+        $_SESSION['connect'] = True;
+        header("Location: index.php");
+        exit;
     }
 }
 ?>
@@ -85,11 +50,11 @@ if($ok)
 <div class="container">
     <div class="row justify-content-center mt-4">
         <div class="col-md-12">
-            <div class="card text-light" style="background-color: #ffbb7e;">
-                <?php if (isset($erreur["login"])): ?>
+            <div class="card text-dark" style="background-color: #EEEEEE;">
+                <?php if (isset($erreur["login"]) && !isset($erreur["email"])): ?>
                     <div class="card-header bg-danger"><h5>Email ou mot de passe incorrect</h5></div>
                 <?php else: ?>
-                    <div class="card-header" style="background-color: #e26a00"><h5>Se connecter</h5></div>
+                    <div class="card-header" style="background-color: #c0c0c0"><h5>Se connecter</h5></div>
                 <?php endif; ?>
                 <div class="card-body">
                     <form method="post">
