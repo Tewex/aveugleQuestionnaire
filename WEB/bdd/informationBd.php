@@ -1,6 +1,6 @@
 <?php
-    const SERVER = '127.0.0.1';
+    const SERVER = 'localhost';
     const PSEUDO = 'root';
     const PWD = '';
-    const DATABASE_NAME = 'questionnaireaveugle';
+    const DATABASE_NAME = 'aveugleQuestionnaire';
 ?>

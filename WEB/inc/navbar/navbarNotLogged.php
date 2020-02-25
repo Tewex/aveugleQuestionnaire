@@ -1,5 +1,5 @@
-<div class="container-fluid mb-5" style="background-color: #000000;">
-  <nav class="container navbar navbar-expand-lg navbar-dark">
+<div class="container-fluid mb-5 text-light" style="background-color: #007C66;">
+  <nav class="container navbar navbar-expand navbar-dark">
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
@@ -8,6 +8,9 @@
       </ul>
       <span class="navbar-text">
         <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <h5><a class="nav-link text-light" href=".\classement.php">Classement</a></h5>
+          </li>
           <li class="nav-item">
             <h5><a class="nav-link text-light" href=".\connexion.php">Connexion</a></h5>
           </li>

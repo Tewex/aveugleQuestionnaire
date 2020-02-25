@@ -7,7 +7,7 @@
 <?php
   require "inc/function.php";
 
-  $allQuestion = nbQuestionTotal(5);
+  $allQuestion = nbQuestionTotal(1);
   
 
   if(filter_has_var(INPUT_POST, 'submit')){

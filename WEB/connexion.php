@@ -14,22 +14,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-//Ouvre la session
-if (session_status() == PHP_SESSION_NONE)
-{
-    session_start();
-}
-
-//Affiche une navbar selon si on est log ou non.
-if (false) // is loggged
-{
-    header("Location: .\index.php");
-    exit;
-}
-else
-{
-    include "inc/navbar/navbarNotLogged.php";
-}
 ?>
 <!DOCTYPE html>
 <html lang="FR" dir="ltr">
@@ -40,6 +24,18 @@ else
     <title>Connexion</title>
 </head>
 <body>
+<?php
+
+if (isLogged())
+{
+    include "inc/navbar/navbarLogged.php";
+}
+else
+{
+    include "inc/navbar/navbarNotLogged.php";
+}
+
+?>
     <div class="formulaireConnexion">
         <?php
         include "inc/form/formulaireConnexion.php";

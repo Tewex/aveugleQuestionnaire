@@ -3,6 +3,7 @@
 require "./bdd/connexionBd.php";
 
 $db = UserDbConnection();
+setlocale(LC_ALL, "fr_FR.utf8", 'fra');
 
 if (session_status() == PHP_SESSION_NONE)
 {
@@ -171,5 +172,54 @@ function selectQuestions($nbQuestion){
 
     return $quest;
 }
+
+function showBestScoresHTML()
+{
+  $place = 1;
+  $data = getBestScores();
+  $joueurs = "";
+  foreach ($data as $d) {
+    $joueurs.= "
+    <tr>
+      <td>$place</td>
+      <td>".$d{"nickname"}."</td>
+      <td>".$d{"score"}."</td>
+      <td>".changeDateFormat($d{"dateScore"})."</td>
+    </tr>
+    ";
+    $place++;
+  }
+  $scores = "
+  <table class='table table-hover' >
+  <thead class='thead-light'>
+      <tr>
+      <th scope='col'>Place</th>
+      <th scope='col'>Pseudo</th>
+      <th scope='col'>Score</th>
+      <th scope='col'>Date</th>
+      </tr>
+  </thead>
+  <tbody> 
+  $joueurs
+  </tbody>
+  </table>
+  ";
+
+  return $scores;
+}
+
+function getBestScores()
+{
+  global $db;
+  $requser = $db->query('SELECT score,dateScore,nickname FROM classement,user WHERE user.userId = classement.userId ORDER BY score DESC');
+  $userinfo = $requser->fetchAll();
+  return $userinfo;
+}
+
+function changeDateFormat($date)
+{
+    return utf8_encode(strftime("%A %d %B %Y ", strtotime($date)));
+}
+
 
 ?>
