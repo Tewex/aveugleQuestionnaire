@@ -116,6 +116,8 @@ function verifyNickname($givenNick)
   }
 }
 
+
+//Ajoute le nombre de question que l'on veut dans un tableau et le retourne
 function nbQuestionTotal($nbQuestion){
   $array = array();
 
@@ -130,6 +132,7 @@ function nbQuestionTotal($nbQuestion){
   return $array;
 }
 
+// prend en parametre un tableau de question et en fait un tableau HTML et l'affiche
 function afficherTableQuestion($array){
  foreach ($array as $key => $value) {
   $question = selectQuestions($value);
@@ -149,6 +152,7 @@ function afficherTableQuestion($array){
 
  }
 }
+//Rends des questions aléatoire 
 function selectQuestionAleatoire(){
   global $db;
   $totalQuestion = $db->query('select COUNT(questionId) as total from question');
@@ -163,6 +167,7 @@ function selectQuestionAleatoire(){
   return $donnees['questionId'];
 }
 
+//selectionne toute les données d'une question (reponse, question,image)
 function selectQuestions($nbQuestion){
     global $db;
 
@@ -172,6 +177,23 @@ function selectQuestions($nbQuestion){
 
     return $quest;
 }
+
+function bonneReponses($allQuestions){
+  global $db;
+  $bonneReponse = [];
+
+    foreach ($allQuestions as $value) {
+      $reqQuest = $db->prepare("SELECT * FROM `question` WHERE questionId = ?");
+      $reqQuest->execute(array($value));
+      $quest = $reqQuest->fetch();
+
+      array_push($bonneReponse, $quest['answer']);
+    }
+
+    return $bonneReponse;
+}
+
+
 
 function showBestScoresHTML()
 {

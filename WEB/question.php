@@ -7,17 +7,22 @@
 <?php
   require "inc/function.php";
 
-  $allQuestion = nbQuestionTotal(1);
+
+    $nbQuestion =  5;
+    $_POST['allQuestion'] = nbQuestionTotal($nbQuestion);
+    $bonneReponses = bonneReponses($_POST['allQuestion']);
+    $reponses = [];
   
-
+  var_dump($bonneReponses);
   if(filter_has_var(INPUT_POST, 'submit')){
-   /* $reponseUser = filter_input(INPUT_POST, 'reponse', FILTER_SANITIZE_STRING);
 
-    if($question1['answer']==$reponseUser){
-      echo "bonne reponse";
-    }else{
-      echo "mauvaise reponse";
-    }*/
+    for ($i=0; $i < $nbQuestion; $i++) { 
+      $tmp = filter_input(INPUT_POST, 'reponse'.$i, FILTER_SANITIZE_STRING);
+      array_push($reponses,$tmp);
+    }
+    var_dump($reponses);
+    echo "<br/>";
+    
   }
 
 ?>
@@ -37,7 +42,7 @@
     <table>      
 
       <?php
-        afficherTableQuestion($allQuestion);
+        afficherTableQuestion($_POST['allQuestion']);
       ?>      
 
       <tr>
