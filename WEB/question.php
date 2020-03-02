@@ -8,23 +8,10 @@
   require "inc/function.php";
 
 
-    $nbQuestion =  5;
-    $_POST['allQuestion'] = nbQuestionTotal($nbQuestion);
-    $bonneReponses = bonneReponses($_POST['allQuestion']);
-    $reponses = [];
+    $_SESSION['nbQuestion'] =  5;
+    $_SESSION['allQuestion'] = nbQuestionTotal($_SESSION['nbQuestion']);
+    $_SESSION['bonneReponses'] = bonneReponses($_SESSION['allQuestion']);
   
-  var_dump($bonneReponses);
-  if(filter_has_var(INPUT_POST, 'submit')){
-
-    for ($i=0; $i < $nbQuestion; $i++) { 
-      $tmp = filter_input(INPUT_POST, 'reponse'.$i, FILTER_SANITIZE_STRING);
-      array_push($reponses,$tmp);
-    }
-    var_dump($reponses);
-    echo "<br/>";
-    
-  }
-
 ?>
 <!doctype html>
 <html lang="fr">
@@ -38,11 +25,12 @@
 <?php include "inc/navbar/navbarNotLogged.php";?>
 <div style="margin-left:500px;">
 
-  <form action="" method="POST">
+  <form action="resultat.php" method="POST">
     <table>      
 
       <?php
-        afficherTableQuestion($_POST['allQuestion']);
+        afficherTableQuestion($_SESSION['allQuestion']);
+        retourneReponses(1);
       ?>      
 
       <tr>
