@@ -8,9 +8,9 @@ if(isset($_REQUEST['question']) && isset($_REQUEST['answer']) && isset($_REQUEST
         $question = $_REQUEST['question'];
         $answer = $_REQUEST['answer'];
 
-        $query = "INSERT INTO question (imgPath, question, answer) VALUES ('-','-','-')";
+        $query = "INSERT INTO question (imgPath, question, answer) VALUES ('!','-','!')";
         try{
-            $statement = BDD::prepare($query);
+            $statement = UserDbConnection()->prepare($query);
             $statement->execute();
         }
         catch(Exception $e)

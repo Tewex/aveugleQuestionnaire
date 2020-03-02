@@ -1,6 +1,6 @@
 <?php
     const SERVER = 'localhost';
     const PSEUDO = 'root';
-    const PWD = '';
+    const PWD = 'Super';
     const DATABASE_NAME = 'aveugleQuestionnaire';
 ?>
