@@ -131,17 +131,37 @@ function nbQuestionTotal($nbQuestion){
   }
   return $array;
 }
+//permet de retourner la bonne reponse et les trois fausses réponses dans le désordre
+function retourneReponses($idQuestion){
+  $array = [];
+  $placeBonneReponse = rand(0,3);
+
+
+  for ($i=0; $i < 4; $i++) { 
+    $reponseAleatoire = selectQuestionAleatoire();
+    if ($i == $placeBonneReponse) {
+      array_push($array,selectQuestions($idQuestion)['answer']);
+    }elseif (in_array($reponseAleatoire, $array) == FALSE && $reponseAleatoire != $idQuestion) {
+      array_push($array,selectQuestions($reponseAleatoire)['answer']);
+    }else{
+      $i--;
+    }
+  }
+
+  var_dump($array);
+}
 
 // prend en parametre un tableau de question et en fait un tableau HTML et l'affiche
 function afficherTableQuestion($array){
  foreach ($array as $key => $value) {
   $question = selectQuestions($value);
+
  echo '
       <tr>
       <td colspan="2" align="center"><p>'.$question["question"].'</p></td>
       </tr>
       <tr>
-        <td><input type="radio" name="reponse'.$key.'" value="'.$question["answer"].'">'.$question["answer"].'</td>
+        <td><input type="radio" name="reponse'.$key.'" value="'.$question["answer"].'" required>'.$question["answer"].'</td>
         <td><input type="radio" name="reponse'.$key.'" value="2">Reponse 2</td>
       </tr>
       <tr>
