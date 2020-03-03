@@ -9,6 +9,9 @@
         <span class="navbar-text">
             <ul class="navbar-nav mr-auto">
             <li class="nav-item">
+                <h5><a class="nav-link text-light" href=".\index.php">Accueil</a></h5>
+            </li>
+            <li class="nav-item">
                 <h5><a class="nav-link text-light" href=".\classement.php">Classement</a></h5>
             </li>
             <li class="nav-item">
