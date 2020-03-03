@@ -252,7 +252,7 @@ function showBestScoresHTML()
 
 function getBestScores()
 {
-  global $db;
+  global $db; 
   $requser = $db->query('SELECT score,dateScore,nickname FROM classement,user WHERE user.userId = classement.userId ORDER BY score DESC');
   $userinfo = $requser->fetchAll();
   return $userinfo;
@@ -260,7 +260,7 @@ function getBestScores()
 
 function changeDateFormat($date)
 {
-    return utf8_encode(strftime("%A %d %B %Y ", strtotime($date)));
+    return strftime("%e %B %Y &agrave; %kh%M ", strtotime($date));
 }
 
 

@@ -1,7 +1,7 @@
 <?php
 //Page necessaire au fonctionnement.
 require_once "inc/function.php";
-
+header('Content-Type: text/html; charset=UTF-8');
 //Affiche les erreurs si il y en a
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);

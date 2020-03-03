@@ -10,7 +10,7 @@ function UserDbConnection()
   {
       try 
       {
-          $dbb = new PDO("mysql:host=" . SERVER . ";dbname=" . DATABASE_NAME, PSEUDO, PWD, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+          $dbb = new PDO("mysql:host=" . SERVER . ";port=". PORT .";dbname=" . DATABASE_NAME, PSEUDO, PWD, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
           $dbb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       } 
       catch (PDOException $e) 
