@@ -148,25 +148,26 @@ function retourneReponses($idQuestion){
     }
   }
 
-  var_dump($array);
+  return $array;
 }
 
 // prend en parametre un tableau de question et en fait un tableau HTML et l'affiche
 function afficherTableQuestion($array){
  foreach ($array as $key => $value) {
   $question = selectQuestions($value);
+  $reponses = retourneReponses($question['questionId']);
 
  echo '
       <tr>
       <td colspan="2" align="center"><p>'.$question["question"].'</p></td>
       </tr>
       <tr>
-        <td><input type="radio" name="reponse'.$key.'" value="'.$question["answer"].'" required>'.$question["answer"].'</td>
-        <td><input type="radio" name="reponse'.$key.'" value="2">Reponse 2</td>
+        <td><input type="radio" name="reponse'.$key.'" value="'.$reponses[0].'" required>'.$reponses[0].'</td>
+        <td><input type="radio" name="reponse'.$key.'" value="'.$reponses[1].'" required>'.$reponses[1].'</td>
       </tr>
       <tr>
-        <td><input type="radio" name="reponse'.$key.'" value="3">Reponse 3</td>
-        <td><input type="radio" name="reponse'.$key.'" value="4">Reponse 4</td>     
+        <td><input type="radio" name="reponse'.$key.'" value="'.$reponses[2].'" required>'.$reponses[2].'</td>
+        <td><input type="radio" name="reponse'.$key.'" value="'.$reponses[3].'" required>'.$reponses[3].'</td>
       </tr>';
 
 
@@ -290,6 +291,13 @@ function getUserInfoByEmail($email)
   $dataUser = $reqUserInfo->fetchAll();
 
   return $dataUser;
+}
+//Ajoute le score dans la base de donnée après que la partie sois jouée
+function insertScore($points,$idUser){
+  global $db;
+
+  $insertScore = $db->prepare("INSERT INTO `classement`(`userId`, `score`) VALUES (?,?)");
+  $insertScore->execute(array($idUser,$points));
 }
 
 

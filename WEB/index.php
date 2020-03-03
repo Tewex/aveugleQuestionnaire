@@ -27,6 +27,16 @@ error_reporting(E_ALL);
     }
     ?>
     <body>
-        <h1>banane</h1>
+    
+    <?php 
+    if (isLogged())
+    {
+        echo '<h1><a href="question.php">Jouer</a></h1>';
+    }
+    else
+    {
+        echo '<h1><a href="connexion.php">Connectez-vous pour jouer</a></h1>';
+    }
+    ?>
     </body>
 </html>
