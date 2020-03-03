@@ -40,21 +40,20 @@ if($ok)
     // Continue si il n'y a aucune érreur.
     if (count($erreur) == 0)
     {
-        $_SESSION['connect'] = True;
-        header("Location: index.php");
+        connecterUser($mailConnexion);
         exit;
     }
 }
 ?>
 
 <div class="container">
-    <div class="row justify-content-center mt-4">
-        <div class="col-md-12">
-            <div class="card text-dark" style="background-color: #EEEEEE;">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="shadow-lg card text-dark" style="background-color: #EEEEEE;">
                 <?php if (isset($erreur["login"]) && !isset($erreur["email"])): ?>
                     <div class="card-header bg-danger"><h5>Email ou mot de passe incorrect</h5></div>
                 <?php else: ?>
-                    <div class="card-header" style="background-color: #c0c0c0"><h5>Se connecter</h5></div>
+                    <div class="card-header text-light p-3 pl-4" style="background-color: #35393C"><h4>Se connecter</h4></div>
                 <?php endif; ?>
                 <div class="card-body">
                     <form method="post">

@@ -97,16 +97,16 @@ if ($ok)
     if (count($erreur) == 0)
     {
         addUser($nom,$prenom,$email,hashPassword($email,$password),$pseudo);
-        echo " oki";
-        //header("Location: pingtoflop.php");
+        connecterUser($email);
+        exit;
     }
 }
 ?>
 <div class="container">
-    <div class="row justify-content-center mt-4">
+    <div class="row">
         <div class="col-md-12">
-            <div class="card text-dark" style="background-color: #EEEEEE">
-                <div class="card-header" style="background-color: #c0c0c0"><h5>Crée un compte</h5></div>
+            <div class="shadow-lg card text-dark" style="background-color: #EEEEEE">
+                <div class="card-header text-light p-3 pl-4" style="background-color: #35393C"><h4>Crée un compte</h4></div>
                 <div class="card-body">
                     <form method="post">
                         <div class="form-group">

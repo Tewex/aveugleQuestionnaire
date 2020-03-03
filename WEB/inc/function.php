@@ -213,12 +213,11 @@ function bonneReponses($allQuestions){
     return $bonneReponse;
 }
 
-
-
-function showBestScoresHTML()
+// Return le tableau des scores
+function showBestScoresHTML($nbAffiche = 10)
 {
   $place = 1;
-  $data = getBestScores();
+  $data = getBestScores($nbAffiche);
   $joueurs = "";
   foreach ($data as $d) {
     $joueurs.= "
@@ -250,17 +249,47 @@ function showBestScoresHTML()
   return $scores;
 }
 
-function getBestScores()
+// Return les scores par odre du meilleur
+function getBestScores($nbAffiche)
 {
   global $db; 
-  $requser = $db->query('SELECT score,dateScore,nickname FROM classement,user WHERE user.userId = classement.userId ORDER BY score DESC');
+  $requser = $db->query('SELECT score,dateScore,nickname FROM classement,user WHERE user.userId = classement.userId ORDER BY score DESC limit '.$nbAffiche);
   $userinfo = $requser->fetchAll();
   return $userinfo;
 }
 
+// Change le format de la date
 function changeDateFormat($date)
 {
-    return strftime("%e %B %Y &agrave; %kh%M ", strtotime($date));
+  return strftime("%e %B %Y &agrave; %kh%M ", strtotime($date));
+}
+
+// Connecte l'utilisateur et rentre ces infos en session
+function connecterUser($email)
+{
+  $_SESSION['connect'] = True;
+  $user = getUserInfoByEmail($email);
+  foreach ($user as $u) 
+  {
+    $_SESSION["pseudo"] = $u["nickname"];
+    $_SESSION["email"] = $email;
+    $_SESSION["userId"] = $u["userId"];
+    $_SESSION["nom"] = $u["name"];
+    $_SESSION["prenom"] = $u["surname"];
+  }
+  header("Location: index.php");
+}
+
+// Return les infos de l'user depuis son email
+function getUserInfoByEmail($email)
+{
+  global $db;
+
+  $reqUserInfo = $db->prepare("SELECT userId,name,nickname,surname FROM `user` WHERE email = ?");
+  $reqUserInfo->execute(array($email));
+  $dataUser = $reqUserInfo->fetchAll();
+
+  return $dataUser;
 }
 
 
