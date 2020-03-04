@@ -141,7 +141,7 @@ function retourneReponses($idQuestion){
     $reponseAleatoire = selectQuestionAleatoire();
     if ($i == $placeBonneReponse) {
       array_push($array,selectQuestions($idQuestion)['answer']);
-    }elseif (in_array($reponseAleatoire, $array) == FALSE && $reponseAleatoire != $idQuestion) {
+    }elseif (in_array(selectQuestions($reponseAleatoire)['answer'], $array) == FALSE && $reponseAleatoire != $idQuestion) {
       array_push($array,selectQuestions($reponseAleatoire)['answer']);
     }else{
       $i--;
