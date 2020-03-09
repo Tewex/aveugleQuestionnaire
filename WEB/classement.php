@@ -1,7 +1,7 @@
 <?php
 //Page necessaire au fonctionnement.
 require_once "inc/function.php";
-
+header('Content-Type: text/html; charset=UTF-8');
 //Affiche les erreurs si il y en a
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -28,17 +28,14 @@ error_reporting(E_ALL);
     ?>
     <body>
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-12">
-                    <div class="card text-dark" style="background-color: #EEEEEE;">             
-                        <div class="card-header p-3  pl-4 text-light" style="background-color: #70CE9B;">
-                            <h3>Les meilleurs scores</h3>
-                        </div>
-                        <div class="card-body p-0">
-                        <?php
-                        echo showBestScoresHTML();
-                        ?>
-                        
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shadow-lg card text-dark" style="background-color: #EEEEEE;">             
+                        <div class="card-header text-light p-3 pl-4" style="background-color: #35393C"><h4>Classement</h4></div>
+                        <div class="card-body p-0 m-0">
+                            <?php
+                            echo showBestScoresHTML();
+                            ?>
                         </div>
                     </div>        
                 </div>

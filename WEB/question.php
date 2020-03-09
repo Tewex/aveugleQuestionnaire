@@ -6,6 +6,10 @@
   -->
 <?php
   require "inc/function.php";
+  if (isLogged()==false) {
+    header("Location: index.php");
+  }
+ 
 
 
     $_SESSION['nbQuestion'] =  5;
@@ -22,7 +26,16 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-<?php include "inc/navbar/navbarNotLogged.php";?>
+<?php 
+    if (isLogged())
+    {
+        include "inc/navbar/navbarLogged.php";
+    }
+    else
+    {
+        include "inc/navbar/navbarNotLogged.php";
+    }
+    ?>
 <div style="margin-left:500px;">
 
   <form action="resultat.php" method="POST">
@@ -30,7 +43,7 @@
 
       <?php
         afficherTableQuestion($_SESSION['allQuestion']);
-        retourneReponses(1);
+        
       ?>      
 
       <tr>

@@ -141,32 +141,33 @@ function retourneReponses($idQuestion){
     $reponseAleatoire = selectQuestionAleatoire();
     if ($i == $placeBonneReponse) {
       array_push($array,selectQuestions($idQuestion)['answer']);
-    }elseif (in_array($reponseAleatoire, $array) == FALSE && $reponseAleatoire != $idQuestion) {
+    }elseif (in_array(selectQuestions($reponseAleatoire)['answer'], $array) == FALSE && $reponseAleatoire != $idQuestion) {
       array_push($array,selectQuestions($reponseAleatoire)['answer']);
     }else{
       $i--;
     }
   }
 
-  var_dump($array);
+  return $array;
 }
 
 // prend en parametre un tableau de question et en fait un tableau HTML et l'affiche
 function afficherTableQuestion($array){
  foreach ($array as $key => $value) {
   $question = selectQuestions($value);
+  $reponses = retourneReponses($question['questionId']);
 
  echo '
       <tr>
       <td colspan="2" align="center"><p>'.$question["question"].'</p></td>
       </tr>
       <tr>
-        <td><input type="radio" name="reponse'.$key.'" value="'.$question["answer"].'" required>'.$question["answer"].'</td>
-        <td><input type="radio" name="reponse'.$key.'" value="2">Reponse 2</td>
+        <td><input type="radio" name="reponse'.$key.'" value="'.$reponses[0].'" required>'.$reponses[0].'</td>
+        <td><input type="radio" name="reponse'.$key.'" value="'.$reponses[1].'" required>'.$reponses[1].'</td>
       </tr>
       <tr>
-        <td><input type="radio" name="reponse'.$key.'" value="3">Reponse 3</td>
-        <td><input type="radio" name="reponse'.$key.'" value="4">Reponse 4</td>     
+        <td><input type="radio" name="reponse'.$key.'" value="'.$reponses[2].'" required>'.$reponses[2].'</td>
+        <td><input type="radio" name="reponse'.$key.'" value="'.$reponses[3].'" required>'.$reponses[3].'</td>
       </tr>';
 
 
@@ -213,12 +214,11 @@ function bonneReponses($allQuestions){
     return $bonneReponse;
 }
 
-
-
-function showBestScoresHTML()
+// Return le tableau des scores
+function showBestScoresHTML($nbAffiche = 10)
 {
   $place = 1;
-  $data = getBestScores();
+  $data = getBestScores($nbAffiche);
   $joueurs = "";
   foreach ($data as $d) {
     $joueurs.= "
@@ -250,17 +250,54 @@ function showBestScoresHTML()
   return $scores;
 }
 
-function getBestScores()
+// Return les scores par odre du meilleur
+function getBestScores($nbAffiche)
 {
-  global $db;
-  $requser = $db->query('SELECT score,dateScore,nickname FROM classement,user WHERE user.userId = classement.userId ORDER BY score DESC');
+  global $db; 
+  $requser = $db->query('SELECT score,dateScore,nickname FROM classement,user WHERE user.userId = classement.userId ORDER BY score DESC limit '.$nbAffiche);
   $userinfo = $requser->fetchAll();
   return $userinfo;
 }
 
+// Change le format de la date
 function changeDateFormat($date)
 {
-    return utf8_encode(strftime("%A %d %B %Y ", strtotime($date)));
+  return strftime("%e %B %Y &agrave; %kh%M ", strtotime($date));
+}
+
+// Connecte l'utilisateur et rentre ces infos en session
+function connecterUser($email)
+{
+  $_SESSION['connect'] = True;
+  $user = getUserInfoByEmail($email);
+  foreach ($user as $u) 
+  {
+    $_SESSION["pseudo"] = $u["nickname"];
+    $_SESSION["email"] = $email;
+    $_SESSION["userId"] = $u["userId"];
+    $_SESSION["nom"] = $u["name"];
+    $_SESSION["prenom"] = $u["surname"];
+  }
+  header("Location: index.php");
+}
+
+// Return les infos de l'user depuis son email
+function getUserInfoByEmail($email)
+{
+  global $db;
+
+  $reqUserInfo = $db->prepare("SELECT userId,name,nickname,surname FROM `user` WHERE email = ?");
+  $reqUserInfo->execute(array($email));
+  $dataUser = $reqUserInfo->fetchAll();
+
+  return $dataUser;
+}
+//Ajoute le score dans la base de donnée après que la partie sois jouée
+function insertScore($points,$idUser){
+  global $db;
+
+  $insertScore = $db->prepare("INSERT INTO `classement`(`userId`, `score`) VALUES (?,?)");
+  $insertScore->execute(array($idUser,$points));
 }
 
 

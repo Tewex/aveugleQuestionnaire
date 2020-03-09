@@ -6,6 +6,10 @@
   -->
   <?php
   require "inc/function.php";
+
+    if (isLogged()==false) {
+      header("Location: index.php");
+    }
    
     $reponses = [];
   
@@ -34,22 +38,35 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-<?php include "inc/navbar/navbarNotLogged.php";?>
+<?php 
+    if (isLogged())
+    {
+        include "inc/navbar/navbarLogged.php";
+    }
+    else
+    {
+        include "inc/navbar/navbarNotLogged.php";
+    }
+    ?>
     <div style="margin-left:500px;">
     <?php 
+    $score = 0;
     $question = 1;
     for ($i=0; $i < $_SESSION['nbQuestion']; $i++) { 
         
         echo "La question ".$question. " est une : ";
         if($reponses[$i]==$_SESSION['bonneReponses'][$i]){
             echo "bonne reponse</br>";
+            $score++;
         }else {
             echo "mauvaise reponse </br>";
         }
         $question++;
     }
+    insertScore($score,$_SESSION["userId"]);
+    echo "votre score est de : ".$score;
     ?>
-    <h2><a href="question.php">Recommencer</a></h2>
+    <h2><a href="question.php">Rejouer</a><a href="classement.php"> Voir le classement</a></h2>
     </div>
 </body>
 </html>

@@ -1,17 +1,37 @@
+*
+{
+    margin: 0px;
+    padding: 0px;
+}
 body
 {
     background-color: #f1f0f0;
 }
-/*This is modifying the btn-primary colors but you could create your own .btn-something class as well*/
 .btn-bouton1 
 {
     color:#fff;
-    background-color: #e26a00;
-    border-color: #e26a00; /*set the color you want here*/
+    background-color: #3993DD;
+    border-color: #3993DD;
 }
 .btn-bouton1:hover, .btn-bouton1:focus, .btn-bouton1:active, .btn-bouton1.active, .open>.dropdown-toggle.btn-bouton1 
 {
     color: #fff;
-    background-color: #e6822c;
-    border-color: #e26a00; /*set the color you want here*/
+    background-color: rgba(247, 209, 138, 0.712);
+    border-color: #F7D08A;
+}
+.table {
+    margin-bottom: 0px !important;
+}
+.alert {
+    margin-bottom: 0px !important;
+}
+.table td,th 
+{
+    text-align: center;   
+}
+    
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th 
+{
+    color: #fff;
+    background-color: #F7D08A;
 }
