@@ -12,21 +12,19 @@ namespace TravailLundiAprem
 {
     public partial class AddQuestion : Form
     {
-        public string Question { get => Question; set => Question = value; }
-        public string Answer { get => Answer; set => Answer = value; }
-        public Image Img { get => Img; set => Img = value; }
+        private string question;
+        private string answer;
+        public string Question { get => question; set => question = value; }
+        public string Answer { get => answer; set => answer = value; }
         public AddQuestion()
         {
             InitializeComponent();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                Img = Image.FromFile(openFileDialog1.FileName);
-            }
-
+            Question = textBox1.Text;
+            Answer = textBox2.Text;
         }
     }
 }

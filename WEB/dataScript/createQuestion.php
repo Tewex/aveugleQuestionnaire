@@ -1,14 +1,13 @@
 <?php
 require_once("../bdd/connexionBd.php");
-if(isset($_REQUEST['question']) && isset($_REQUEST['answer']) && isset($_REQUEST['imgPath']))
+if(isset($_REQUEST['question']) && isset($_REQUEST['answer']))
 {  
-    if($_REQUEST['question'] != "" && $_REQUEST['answer'] != "" && $_REQUEST['imgPath'] != "")
+    if($_REQUEST['question'] != "" && $_REQUEST['answer'] != "")
     {
-        $imgPath = $_REQUEST['imgPath'];
         $question = $_REQUEST['question'];
         $answer = $_REQUEST['answer'];
 
-        $query = "INSERT INTO question (imgPath, question, answer) VALUES ('!','-','!')";
+        $query = "INSERT INTO question (question, answer) VALUES ('$question','$answer')";
         try{
             $statement = UserDbConnection()->prepare($query);
             $statement->execute();
