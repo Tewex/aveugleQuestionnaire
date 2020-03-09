@@ -64,8 +64,9 @@
         $question++;
     }
     insertScore($score,$_SESSION["userId"]);
+    echo "votre score est de : ".$score;
     ?>
-    <h2><a href="question.php">Rejouer</a></h2>
+    <h2><a href="question.php">Rejouer</a><a href="classement.php"> Voir le classement</a></h2>
     </div>
 </body>
 </html>
